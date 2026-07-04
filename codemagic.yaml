@@ -1,3 +1,19 @@
-git add codemagic.yaml
-git commit -m 'Add first workflow'
-git push
+workflows:
+  unity-android-workflow:
+    name: Eclipse Wars Android APK
+    max_build_duration: 60
+    environment:
+      unity: 2021.3.16f1
+      vars:
+        UNITY_LICENSE: $UNITY_LICENSE
+    scripts:
+      - name: Build Android APK
+        script: | 
+          unity -batchmode -quit -logFile -projectPath . -executeMethod BuildScript.BuildAndroid -buildTarget Android
+    artifacts:
+      - build/**/outputs/**/*.apk
+      - build/**/outputs/**/*.aab
+    publishing:
+      email:
+        recipients:
+          - your@email.com
